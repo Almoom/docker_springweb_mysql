@@ -21,7 +21,7 @@ public class DbHandler {
         jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(dataSource);
 
-        jdbcTemplate.execute("create schema public;");
+//        jdbcTemplate.execute("create schema public;");
 
 //        jdbcTemplate.execute("DROP TABLE IF EXISTS public.t1;");
 
@@ -42,7 +42,7 @@ public class DbHandler {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 //        String ip = System.getenv().get("ip");
-        dataSource.setUrl("jdbc:mysql://192.168.99.100:3306/public");
+        dataSource.setUrl("jdbc:mysql://192.168.99.106:3306/public");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         return dataSource;
