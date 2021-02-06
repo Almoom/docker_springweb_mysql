@@ -1,46 +1,62 @@
-//package com.example.servingwebcontent;
-//
-//import org.springframework.jdbc.core.JdbcTemplate;
-//import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//
-//import javax.sql.DataSource;
-//import java.sql.SQLException;
-//import java.util.List;
-//
-//public class DbHandler {
-//
-//    static JdbcTemplate jdbcTemplate;
-//
-//    // --------ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ--------
-//    public static void createConnection() throws SQLException
-//    {
-//        jdbcTemplate = new JdbcTemplate();
-//        jdbcTemplate.setDataSource(mysqlDataSource());
-////        jdbcTemplate.execute("SHOW DATABASES;");
-////        List<Test> tests = jdbcTemplate.query("SHOW DATABASES;", new BeanPropertyRowMapper(Test.class));
-////        for (Test t : tests) { System.out.println(t.field); }
-//        jdbcTemplate.execute("create schema public;");
-//        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS public.t2 (" +
-//                "                    c1 INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
-//                "                    c2 VARCHAR(100)," +
-//                "                    c3 VARCHAR(100) );");
-//
+package com.example.servingwebcontent;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Component;
+
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+public class DbHandler {
+
+    JdbcTemplate jdbcTemplate;
+    static DataSource dataSource = mysqlDataSource();
+
+    public DbHandler() {
+        jdbcTemplate = new JdbcTemplate();
+        jdbcTemplate.setDataSource(dataSource);
+
+        jdbcTemplate.execute("create schema public;");
+
 //        jdbcTemplate.execute("DROP TABLE IF EXISTS public.t1;");
-//
-//        jdbcTemplate.execute("INSERT INTO public.t2 (c2,c3) VALUES('Sasha','Dima');");
+
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS public.persons (" +
+                "                    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
+                "                    name VARCHAR(100)," +
+                "                    surname VARCHAR(100)," +
+                "                    position VARCHAR(100) );");
+    }
+
+    public void insert(String name, String surname, String position) {
+        jdbcTemplate.execute("INSERT INTO public.persons (name,surname,position) VALUES(" +
+                "'" + name + "','" + surname + "','" + position + "'" +
+                ");");
+    }
+
+    public static DataSource mysqlDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        String ip = System.getenv().get("ip");
+        dataSource.setUrl("jdbc:mysql://192.168.99.100:3306/public");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
+        return dataSource;
+    }
+
+    public List<Person> select() {
+        return jdbcTemplate.query("SELECT * FROM public.persons;", (resultSet, i) -> new Person(
+                resultSet.getString("name"),
+                resultSet.getString("surname"),
+                resultSet.getString("position"))
+        );
+    }
+
+//    public static void main(String[] args) throws SQLException {
+//        createConnection();
 //    }
-//
-//    public static DataSource mysqlDataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-////        dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc");
-//        dataSource.setUrl("jdbc:mysql://192.168.99.105:3306/public");
-//        dataSource.setUsername("root");
-//        dataSource.setPassword("root");
-//        return dataSource;
-//    }
-//
-////    public static void main(String[] args) throws SQLException {
-////        createConnection();
-////    }
-//}
+}

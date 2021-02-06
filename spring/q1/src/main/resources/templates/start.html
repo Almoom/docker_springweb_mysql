@@ -6,9 +6,16 @@
 </head>
 <body>
 
+
     <p>Get your greeting <a href="/greeting">here</a></p>
     <p>All people <a href="/people">here</a></p>
     <p>Create new here <a href="/new">here</a></p>
+
+
+
+    <div th:each="person : ${people}">
+        <a th:text="${person.getName()}">user</a>
+    </div>
 
 </body>
 </html>
