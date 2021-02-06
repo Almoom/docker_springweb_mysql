@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  db:
+    build: mysql/
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: public
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+  spring:
+    depends_on:
+      - db
+    build: spring/
+    #image: 02_bonus_spring
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+  #     volumes:
+  #       - ~/game:/var/game
+  #     command: /bin/sh
+
+# Fd9Y7gY7DKB9E4B
