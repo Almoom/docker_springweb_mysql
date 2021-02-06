@@ -1,14 +1,10 @@
 package com.example.servingwebcontent;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -22,7 +18,6 @@ public class DbHandler {
         jdbcTemplate.setDataSource(dataSource);
 
 //        jdbcTemplate.execute("create schema public;");
-
 //        jdbcTemplate.execute("DROP TABLE IF EXISTS public.t1;");
 
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS public.persons (" +
@@ -41,8 +36,8 @@ public class DbHandler {
     public static DataSource mysqlDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//        String ip = System.getenv().get("ip");
-        dataSource.setUrl("jdbc:mysql://192.168.99.106:3306/public");
+//        dataSource.setUrl("jdbc:mysql://192.168.99.106:3306/public");
+        dataSource.setUrl("jdbc:mysql://db:3306/public");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         return dataSource;
@@ -56,7 +51,4 @@ public class DbHandler {
         );
     }
 
-//    public static void main(String[] args) throws SQLException {
-//        createConnection();
-//    }
 }

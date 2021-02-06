@@ -9,8 +9,5 @@ WORKDIR /restService
 RUN mvn package -DskipTests=true
 ENTRYPOINT java -jar target/serving-web-content-0.0.1-SNAPSHOT.jar
 
-# How to build it?
-# docker build -t b01 .
-
-# How to run it?
-# docker run --rm -ti b01
+# docker build -t spr .
+# docker run -ti spr
