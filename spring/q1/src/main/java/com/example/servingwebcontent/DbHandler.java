@@ -36,8 +36,8 @@ public class DbHandler {
     public static DataSource mysqlDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//        dataSource.setUrl("jdbc:mysql://192.168.99.106:3306/public");
-        dataSource.setUrl("jdbc:mysql://db:3306/public");
+        dataSource.setUrl("jdbc:mysql://192.168.99.108:3306/public");
+//        dataSource.setUrl("jdbc:mysql://db:3306/public");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         return dataSource;
